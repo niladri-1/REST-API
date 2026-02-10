@@ -6,8 +6,6 @@ Simple REST API for managing users. Create, read, update, and delete user data.
 
 🌐 **Base URL:** `https://curdapi-ycmy.onrender.com`
 
-📄 **Documentation Page:** [https://curdapi-ycmy.onrender.com/](https://curdapi-ycmy.onrender.com/) (opens in browser)
-
 💾 **Source Code:** [github.com/niladri-1/REST-API](https://github.com/niladri-1/REST-API)
 
 ## Setup
