@@ -1,101 +1,87 @@
-# User Management REST API
+# User Management API
 
-A simple REST API to manage users. Built with Node.js and Express.
+Simple REST API for managing users. Create, read, update, and delete user data.
 
-<br>
+## Live API
 
-## 🌐 Try It Live
+🌐 **Base URL:** `https://curdapi-ycmy.onrender.com`
 
-**API is live here:** https://curdapi-ycmy.onrender.com/
+📄 **Documentation Page:** [https://curdapi-ycmy.onrender.com/](https://curdapi-ycmy.onrender.com/) (opens in browser)
 
-Click the link to see all available endpoints!
+💾 **Source Code:** [github.com/niladri-1/REST-API](https://github.com/niladri-1/REST-API)
 
-<br>
+## Setup
 
-## What This API Does
-
-Add users ➜ View users ➜ Update users ➜ Delete users
-
-That's it! Simple user management.
-
-<br>
-
-## Quick Start
-
-**1. Clone this repo:**
 ```bash
 git clone https://github.com/niladri-1/REST-API.git
 cd REST-API
-```
-
-**2. Install:**
-```bash
 npm install
-```
-
-**3. Run:**
-```bash
 npm start
 ```
 
-Your API is now running at `http://localhost:5000` 🎉
+Server runs at `http://localhost:5000`
 
-<br>
+## API Endpoints
 
-## How to Use the API
+### GET - View All Users
 
-### View All Users
-```
-GET https://curdapi-ycmy.onrender.com/users
-```
+**What it does:** Returns a list of all users
 
-### Add a New User
-```
-POST https://curdapi-ycmy.onrender.com/users
-```
-Send this data:
+**URL:** `https://curdapi-ycmy.onrender.com/users`
+
+**How to test:**
+- **Browser:** Just paste the URL above in your address bar
+- **Postman:** Create a GET request with the URL above
+- **JavaScript:**
+  ```javascript
+  fetch('https://curdapi-ycmy.onrender.com/users')
+    .then(response => response.json())
+    .then(data => console.log(data));
+  ```
+
+**Response example:**
 ```json
-{
-  "firstName": "John",
-  "lastName": "Doe",
-  "age": 25
-}
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "age": 25,
+    "id": "abc-123-def"
+  }
+]
 ```
 
-### Get One User
-```
-GET https://curdapi-ycmy.onrender.com/users/:id
-```
+---
 
-### Update a User
-```
-PATCH https://curdapi-ycmy.onrender.com/users/:id
-```
-Send the fields you want to change:
-```json
-{
-  "age": 26
-}
-```
+### POST - Create New User
 
-### Delete a User
-```
-DELETE https://curdapi-ycmy.onrender.com/users/:id
-```
+**What it does:** Adds a new user to the database
 
-<br>
+**URL:** `https://curdapi-ycmy.onrender.com/users`
 
-## Test It Right Now
+**How to do it:**
 
-**Try this in your browser or Postman:**
+**Using Postman:**
+1. Set method to `POST`
+2. URL: `https://curdapi-ycmy.onrender.com/users`
+3. Go to Body → raw → JSON
+4. Paste this:
+   ```json
+   {
+     "firstName": "Jane",
+     "lastName": "Smith",
+     "age": 28
+   }
+   ```
+5. Click Send
 
-1. **See all users:** Just visit https://curdapi-ycmy.onrender.com/users
-
-2. **Add a user:** Use Postman or this JavaScript code:
+**Using JavaScript:**
 ```javascript
 fetch('https://curdapi-ycmy.onrender.com/users', {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
+  headers: {
+    'Content-Type': 'application/json'
+  },
   body: JSON.stringify({
     firstName: 'Jane',
     lastName: 'Smith',
@@ -104,24 +90,96 @@ fetch('https://curdapi-ycmy.onrender.com/users', {
 })
 ```
 
-<br>
+**Response:** `"Jane is added"`
 
-## Built With
+---
 
-- Node.js
-- Express.js
-- UUID (for unique IDs)
+### GET - View Single User
 
-<br>
+**What it does:** Gets information about one specific user
 
-## Important to Know
+**URL:** `https://curdapi-ycmy.onrender.com/users/{user-id}`
 
-⚠️ **Data is temporary** - When the server restarts, all users are deleted (no database connected)
+Replace `{user-id}` with the actual ID from when you created or fetched users
 
-This is perfect for learning and testing!
+**Example:** `https://curdapi-ycmy.onrender.com/users/abc-123-def`
 
-<br>
+**How to test:**
+- **Browser:** Paste the URL with a real user ID
+- **Postman:** GET request with the URL above
 
-## Questions?
+---
 
-Open an issue on [GitHub](https://github.com/niladri-1/REST-API) or try the live API!
+### PATCH - Update User
+
+**What it does:** Changes some information about an existing user
+
+**URL:** `https://curdapi-ycmy.onrender.com/users/{user-id}`
+
+**How to do it:**
+
+**Using Postman:**
+1. Set method to `PATCH`
+2. URL: `https://curdapi-ycmy.onrender.com/users/{user-id}` (use real ID)
+3. Go to Body → raw → JSON
+4. Send only the fields you want to change:
+   ```json
+   {
+     "age": 29
+   }
+   ```
+
+**Using JavaScript:**
+```javascript
+fetch('https://curdapi-ycmy.onrender.com/users/abc-123-def', {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    age: 29
+  })
+})
+```
+
+**Response:** `"abc-123-def has been updated!"`
+
+---
+
+### DELETE - Remove User
+
+**What it does:** Permanently deletes a user from the database
+
+**URL:** `https://curdapi-ycmy.onrender.com/users/{user-id}`
+
+**How to do it:**
+
+**Using Postman:**
+1. Set method to `DELETE`
+2. URL: `https://curdapi-ycmy.onrender.com/users/{user-id}` (use real ID)
+3. Click Send
+
+**Using JavaScript:**
+```javascript
+fetch('https://curdapi-ycmy.onrender.com/users/abc-123-def', {
+  method: 'DELETE'
+})
+```
+
+**Response:** `"User Id: abc-123-def deleted from DB!"`
+
+## Important Notes
+
+⚠️ **No Database:** Data is stored in memory only. When server restarts, all users are lost.
+
+💡 **Perfect for:** Learning, testing, portfolio projects
+
+🔑 **User ID:** Every user gets a unique ID automatically (UUID format)
+
+## Tech Stack
+
+Node.js • Express.js • UUID
+
+## License
+
+ISC
