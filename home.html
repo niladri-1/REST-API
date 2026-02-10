@@ -4,7 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>REST API - User Management</title>
+	<link rel="icon"
+		href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🚀</text></svg>">
+
+	<title>REST API Documentation</title>
 	<style>
 		* {
 			margin: 0;
@@ -13,187 +16,172 @@
 		}
 
 		body {
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			padding: 20px;
-			min-height: 100vh;
-		}
-
-		.container {
-			max-width: 1200px;
-			margin: 0 auto;
-			background: white;
-			border-radius: 15px;
-			box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+			background: #1a1a1a;
+			color: #e0e0e0;
+			height: 100vh;
 			overflow: hidden;
 		}
 
+		.container {
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
 		.header {
-			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-			color: white;
-			padding: 40px;
-			text-align: center;
+			background: #0d0d0d;
+			padding: 25px 30px;
+			border-bottom: 2px solid #68a063;
 		}
 
 		.header h1 {
-			font-size: 2.5em;
-			margin-bottom: 10px;
+			font-size: 2em;
+			color: #68a063;
+			margin-bottom: 8px;
 		}
 
-		.header p {
-			font-size: 1.2em;
-			opacity: 0.9;
-		}
-
-		.content {
-			padding: 40px;
-		}
-
-		.section {
-			margin-bottom: 40px;
-		}
-
-		.section h2 {
-			color: #667eea;
-			font-size: 1.8em;
-			margin-bottom: 20px;
-			padding-bottom: 10px;
-			border-bottom: 3px solid #667eea;
-		}
-
-		.info-box {
-			background: #f8f9fa;
-			padding: 20px;
-			border-radius: 8px;
-			margin-bottom: 20px;
-			border-left: 4px solid #667eea;
-		}
-
-		.endpoint {
-			background: white;
-			border: 2px solid #e9ecef;
-			border-radius: 10px;
-			padding: 25px;
-			margin-bottom: 25px;
-			transition: all 0.3s ease;
-		}
-
-		.endpoint:hover {
-			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-			transform: translateY(-2px);
-		}
-
-		.method {
+		.base-url {
 			display: inline-block;
-			padding: 5px 15px;
-			border-radius: 5px;
-			font-weight: bold;
-			font-size: 0.9em;
-			margin-right: 10px;
-		}
-
-		.get {
-			background: #28a745;
-			color: white;
-		}
-
-		.post {
-			background: #007bff;
-			color: white;
-		}
-
-		.patch {
-			background: #ffc107;
-			color: #333;
-		}
-
-		.delete {
-			background: #dc3545;
-			color: white;
-		}
-
-		.route {
-			font-family: 'Courier New', monospace;
-			background: #f8f9fa;
-			padding: 8px 12px;
-			border-radius: 5px;
-			display: inline-block;
-			margin: 5px 0;
-			font-size: 1.1em;
-		}
-
-		.description {
-			margin: 15px 0;
-			color: #495057;
-			line-height: 1.6;
-		}
-
-		.code-block {
-			background: #2d3748;
-			color: #e2e8f0;
-			padding: 20px;
-			border-radius: 8px;
-			overflow-x: auto;
-			margin: 10px 0;
-			font-family: 'Courier New', monospace;
-			font-size: 0.9em;
-		}
-
-		.code-block pre {
-			margin: 0;
-		}
-
-		.label {
-			font-weight: bold;
-			color: #667eea;
-			margin-top: 15px;
-			margin-bottom: 5px;
-		}
-
-		.status-badge {
-			background: #28a745;
-			color: white;
-			padding: 5px 15px;
-			border-radius: 20px;
-			font-size: 0.85em;
-			display: inline-block;
+			background: #2a2a2a;
+			padding: 10px 15px;
+			border-radius: 4px;
+			font-family: monospace;
+			font-size: 1em;
 			margin-top: 10px;
 		}
 
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin: 15px 0;
+		.content {
+			flex: 1;
+			overflow-y: auto;
+			padding: 25px 30px;
 		}
 
-		th,
-		td {
-			padding: 12px;
-			text-align: left;
-			border-bottom: 1px solid #dee2e6;
+		.endpoints {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+			gap: 20px;
 		}
 
-		th {
-			background: #667eea;
-			color: white;
-			font-weight: bold;
-		}
-
-		tr:hover {
-			background: #f8f9fa;
-		}
-
-		.footer {
-			background: #2d3748;
-			color: white;
-			text-align: center;
+		.endpoint {
+			background: #0d0d0d;
+			border: 1px solid #333;
+			border-radius: 6px;
 			padding: 20px;
 		}
 
-		.highlight {
-			background: #fff3cd;
-			padding: 2px 6px;
+		.endpoint-header {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			margin-bottom: 12px;
+		}
+
+		.method {
+			padding: 6px 12px;
 			border-radius: 3px;
+			font-size: 0.85em;
+			font-weight: bold;
+		}
+
+		.get {
+			background: #68a063;
+			color: #000;
+		}
+
+		.post {
+			background: #5b9bd5;
+			color: #fff;
+		}
+
+		.patch {
+			background: #f39c12;
+			color: #000;
+		}
+
+		.delete {
+			background: #e74c3c;
+			color: #fff;
+		}
+
+		.route {
+			font-family: monospace;
+			color: #68a063;
+			font-size: 1.1em;
+		}
+
+		.desc {
+			color: #999;
+			font-size: 0.95em;
+			margin-bottom: 15px;
+		}
+
+		.code-box {
+			position: relative;
+			background: #000;
+			border: 1px solid #333;
+			border-radius: 4px;
+			padding: 12px 70px 12px 12px;
+			margin: 8px 0;
+			font-family: monospace;
+			font-size: 0.9em;
+			overflow-x: auto;
+			line-height: 1.6;
+		}
+
+		.label {
+			color: #68a063;
+			font-size: 0.85em;
+			font-weight: bold;
+			margin-top: 12px;
+			margin-bottom: 5px;
+		}
+
+		.copy {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+			background: #68a063;
+			color: #000;
+			border: none;
+			padding: 5px 12px;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 0.8em;
+			font-weight: bold;
+		}
+
+		.copy:hover {
+			background: #7db877;
+		}
+
+		.copy.copied {
+			background: #4caf50;
+		}
+
+		.json-key {
+			color: #61afef;
+		}
+
+		.json-string {
+			color: #98c379;
+		}
+
+		.json-number {
+			color: #d19a66;
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #1a1a1a;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: #68a063;
+			border-radius: 4px;
 		}
 	</style>
 </head>
@@ -201,234 +189,149 @@
 <body>
 	<div class="container">
 		<div class="header">
-			<h1>🚀 REST API Documentation</h1>
-			<p>User Management System</p>
-			<div class="status-badge">✓ Server Running</div>
+			<h1>REST API Documentation</h1>
+			<div class="base-url">https://curdapi-ycmy.onrender.com</div>
 		</div>
 
 		<div class="content">
-			<div class="section">
-				<h2>📋 Overview</h2>
-				<div class="info-box">
-					<p><strong>Base URL:</strong> <span class="highlight">https://curdapi-ycmy.onrender.com</span></p>
-					<p><strong>API Version:</strong> 1.0.0</p>
-					<p><strong>Content-Type:</strong> application/json</p>
-					<p style="margin-top: 15px;">This is a RESTful API for managing users. It provides endpoints to create, read,
-						update, and delete user records.</p>
-				</div>
-			</div>
+			<div class="endpoints">
 
-			<div class="section">
-				<h2>🔗 Available Endpoints</h2>
-
-				<!-- GET All Users -->
 				<div class="endpoint">
-					<div>
+					<div class="endpoint-header">
 						<span class="method get">GET</span>
 						<span class="route">/users</span>
 					</div>
-					<div class="description">
-						Retrieve all users from the database.
+					<div class="desc">Get all users</div>
+
+					<div class="label">Request</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						https://curdapi-ycmy.onrender.com/users
 					</div>
-					<div class="label">Request Example:</div>
-					<div class="code-block">
-						<pre>GET https://curdapi-ycmy.onrender.com/users</pre>
-					</div>
-					<div class="label">Response Example (200 OK):</div>
-					<div class="code-block">
-						<pre>[
-  {
-    "firstName": "John",
-    "lastName": "Doe",
-    "age": 25,
-    "id": "a7b8c9d0-1234-5678-90ab-cdef12345678"
-  },
-  {
-    "firstName": "Jane",
-    "lastName": "Smith",
-    "age": 30,
-    "id": "b8c9d0e1-2345-6789-01bc-def123456789"
-  }
-]</pre>
+
+					<div class="label">Response</div>
+					<div class="code-box">[
+						{
+						<span class="json-key">"firstName"</span>: <span class="json-string">"John"</span>,
+						<span class="json-key">"lastName"</span>: <span class="json-string">"Doe"</span>,
+						<span class="json-key">"age"</span>: <span class="json-number">25</span>,
+						<span class="json-key">"id"</span>: <span class="json-string">"uuid"</span>
+						}
+						]
 					</div>
 				</div>
 
-				<!-- POST Create User -->
 				<div class="endpoint">
-					<div>
+					<div class="endpoint-header">
 						<span class="method post">POST</span>
 						<span class="route">/users</span>
 					</div>
-					<div class="description">
-						Create a new user. The server will automatically generate a unique ID using UUID v4.
+					<div class="desc">Create new user</div>
+
+					<div class="label">Request URL</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						https://curdapi-ycmy.onrender.com/users
 					</div>
-					<div class="label">Request Body:</div>
-					<div class="code-block">
-						<pre>{
-  "firstName": "John",
-  "lastName": "Doe",
-  "age": 25
-}</pre>
+
+					<div class="label">Request Body</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						{
+						<span class="json-key">"firstName"</span>: <span class="json-string">"John"</span>,
+						<span class="json-key">"lastName"</span>: <span class="json-string">"Doe"</span>,
+						<span class="json-key">"age"</span>: <span class="json-number">25</span>
+						}
 					</div>
-					<div class="label">Response Example (200 OK):</div>
-					<div class="code-block">
-						<pre>"John is added"</pre>
-					</div>
+
+					<div class="label">Response</div>
+					<div class="code-box"><span class="json-string">"John is added"</span></div>
 				</div>
 
-				<!-- GET Single User -->
 				<div class="endpoint">
-					<div>
+					<div class="endpoint-header">
 						<span class="method get">GET</span>
 						<span class="route">/users/:id</span>
 					</div>
-					<div class="description">
-						Retrieve a specific user by their unique ID.
+					<div class="desc">Get user by ID</div>
+
+					<div class="label">Request</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						https://curdapi-ycmy.onrender.com/users/uuid
 					</div>
-					<div class="label">Request Example:</div>
-					<div class="code-block">
-						<pre>GET https://curdapi-ycmy.onrender.com/users/a7b8c9d0-1234-5678-90ab-cdef12345678</pre>
-					</div>
-					<div class="label">Response Example (200 OK):</div>
-					<div class="code-block">
-						<pre>{
-  "firstName": "John",
-  "lastName": "Doe",
-  "age": 25,
-  "id": "a7b8c9d0-1234-5678-90ab-cdef12345678"
-}</pre>
+
+					<div class="label">Response</div>
+					<div class="code-box">{
+						<span class="json-key">"firstName"</span>: <span class="json-string">"John"</span>,
+						<span class="json-key">"lastName"</span>: <span class="json-string">"Doe"</span>,
+						<span class="json-key">"age"</span>: <span class="json-number">25</span>,
+						<span class="json-key">"id"</span>: <span class="json-string">"uuid"</span>
+						}
 					</div>
 				</div>
 
-				<!-- PATCH Update User -->
 				<div class="endpoint">
-					<div>
+					<div class="endpoint-header">
 						<span class="method patch">PATCH</span>
 						<span class="route">/users/:id</span>
 					</div>
-					<div class="description">
-						Update an existing user's information. You can update one or more fields (firstName, lastName, age).
+					<div class="desc">Update user</div>
+
+					<div class="label">Request URL</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						https://curdapi-ycmy.onrender.com/users/uuid
 					</div>
-					<div class="label">Request Body (partial update):</div>
-					<div class="code-block">
-						<pre>{
-  "firstName": "Jonathan",
-  "age": 26
-}</pre>
+
+					<div class="label">Request Body</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						{
+						<span class="json-key">"firstName"</span>: <span class="json-string">"Jonathan"</span>,
+						<span class="json-key">"age"</span>: <span class="json-number">26</span>
+						}
 					</div>
-					<div class="label">Response Example (200 OK):</div>
-					<div class="code-block">
-						<pre>"a7b8c9d0-1234-5678-90ab-cdef12345678 has been updated!"</pre>
-					</div>
+
+					<div class="label">Response</div>
+					<div class="code-box"><span class="json-string">"uuid has been updated!"</span></div>
 				</div>
 
-				<!-- DELETE User -->
 				<div class="endpoint">
-					<div>
+					<div class="endpoint-header">
 						<span class="method delete">DELETE</span>
 						<span class="route">/users/:id</span>
 					</div>
-					<div class="description">
-						Delete a user from the database by their unique ID.
+					<div class="desc">Delete user</div>
+
+					<div class="label">Request</div>
+					<div class="code-box">
+						<button class="copy" onclick="copy(this)">Copy</button>
+						https://curdapi-ycmy.onrender.com/users/uuid
 					</div>
-					<div class="label">Request Example:</div>
-					<div class="code-block">
-						<pre>DELETE https://curdapi-ycmy.onrender.com/users/a7b8c9d0-1234-5678-90ab-cdef12345678</pre>
-					</div>
-					<div class="label">Response Example (200 OK):</div>
-					<div class="code-block">
-						<pre>"User Id: a7b8c9d0-1234-5678-90ab-cdef12345678 deteled from DB!"</pre>
-					</div>
+
+					<div class="label">Response</div>
+					<div class="code-box"><span class="json-string">"User Id: uuid deteled from DB!"</span></div>
 				</div>
+
 			</div>
-
-			<div class="section">
-				<h2>📊 Quick Reference Table</h2>
-				<table>
-					<thead>
-						<tr>
-							<th>Method</th>
-							<th>Endpoint</th>
-							<th>Description</th>
-							<th>Request Body</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><span class="method get">GET</span></td>
-							<td>/users</td>
-							<td>Get all users</td>
-							<td>None</td>
-						</tr>
-						<tr>
-							<td><span class="method post">POST</span></td>
-							<td>/users</td>
-							<td>Create new user</td>
-							<td>firstName, lastName, age</td>
-						</tr>
-						<tr>
-							<td><span class="method get">GET</span></td>
-							<td>/users/:id</td>
-							<td>Get user by ID</td>
-							<td>None</td>
-						</tr>
-						<tr>
-							<td><span class="method patch">PATCH</span></td>
-							<td>/users/:id</td>
-							<td>Update user</td>
-							<td>firstName?, lastName?, age?</td>
-						</tr>
-						<tr>
-							<td><span class="method delete">DELETE</span></td>
-							<td>/users/:id</td>
-							<td>Delete user</td>
-							<td>None</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<div class="section">
-				<h2>💡 Testing the API</h2>
-				<div class="info-box">
-					<p><strong>Tools you can use:</strong></p>
-					<ul style="margin-left: 20px; margin-top: 10px; line-height: 2;">
-						<li><strong>Postman</strong> - Popular API testing tool</li>
-						<li><strong>Thunder Client</strong> - VS Code extension</li>
-						<li><strong>cURL</strong> - Command line tool</li>
-						<li><strong>Browser</strong> - For GET requests only</li>
-					</ul>
-
-					<div class="label" style="margin-top: 20px;">Example cURL Command:</div>
-					<div class="code-block">
-						<pre># Create a new user
-curl -X POST https://curdapi-ycmy.onrender.com/users \
-  -H "Content-Type: application/json" \
-  -d '{"firstName":"John","lastName":"Doe","age":25}'</pre>
-					</div>
-				</div>
-			</div>
-
-			<div class="section">
-				<h2>⚠️ Important Notes</h2>
-				<div class="info-box">
-					<ul style="margin-left: 20px; line-height: 2;">
-						<li>All data is stored <strong>in-memory</strong>. Restarting the server will clear all users.</li>
-						<li>User IDs are automatically generated using <strong>UUID v4</strong>.</li>
-						<li>All requests expecting JSON should include the header: <span class="highlight">Content-Type:
-								application/json</span></li>
-						<li>The PATCH endpoint allows partial updates - you don't need to send all fields.</li>
-						<li>There's a typo in the delete response: "deteled" instead of "deleted" 😊</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-
-		<div class="footer">
-			<p>REST API User Management System v1.0.0</p>
-			<p style="margin-top: 10px; opacity: 0.8;">Built with Express.js | Deployed on Render</p>
 		</div>
 	</div>
+
+	<script>
+		function copy(btn) {
+			const code = btn.parentElement;
+			const text = code.innerText.replace('Copy', '').trim();
+			navigator.clipboard.writeText(text).then(() => {
+				btn.innerText = '✓';
+				btn.classList.add('copied');
+				setTimeout(() => {
+					btn.innerText = 'Copy';
+					btn.classList.remove('copied');
+				}, 2000);
+			});
+		}
+	</script>
 </body>
 
 </html>
